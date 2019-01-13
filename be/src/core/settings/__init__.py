@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'custom_user',
+    'org',
+    'organization',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -107,3 +111,39 @@ STATICFILES_DIRS = [
 ]
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# User Model
+
+ORG_ORG_MODEL = 'organization.Org'
+ORG_DOMAIN_MODEL = 'organization.Domain'
+AUTH_USER_MODEL = 'organization.User'
+
+
+# Authentication
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', 'org.backends.OrgBackend',
+)
+
+
+# Rest Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ) + ('rest_framework.authentication.SessionAuthentication', ) if DEBUG else (),
+
+}
+
+
+# ORG Settings
+
+ORG = {
+    'USER_SERIALIZER': 'organization.serializers.UserSerializer',
+    'USER_VIEWSET': 'organization.viewsets.UserViewSet'
+}
+
+
+# CORS Settings
+
+CORS_ORIGIN_ALLOW_ALL = True

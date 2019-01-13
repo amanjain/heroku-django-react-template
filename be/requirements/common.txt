@@ -1,3 +1,6 @@
+--extra-index-url https://user1:pass@pypi-amazatic.herokuapp.com/
+org==0.0.1
 Django==2.1.5
+django-cors-headers==2.4.0
 psycopg2-binary==2.7.6.1
 waitress==1.1.0
